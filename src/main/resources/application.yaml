@@ -1,0 +1,5 @@
+spring:
+  mvc:
+    pathmatch:
+      # 该SpringBoot版本下报错解决步骤一，链接见：https://blog.csdn.net/kkorkk/article/details/123774484
+      matching-strategy: ant_path_matcher
