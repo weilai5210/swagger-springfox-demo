@@ -1,12 +1,7 @@
 package com.example.swaggerspringfoxdemo;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.*;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Api：用在请求的类上，表示对类的说明
@@ -56,5 +51,30 @@ public class HelloWorldController {
     @ApiOperation("测试查询")
     public String search(String name, Integer age) {
         return name + ":" + age;
+    }
+
+    @PostMapping("add")
+    @ApiOperation("测试添加")
+    public String add(User user){
+        return user.getName()+":"+user.getAge();
+    }
+
+    /**
+     * @ApiResponses：用于表示一组响应
+     * - @ApiResponse：用在 @ApiResponses 中，一般用于表达一个错误的响应信息
+     *  - code：数字，例如400
+     *  - message：信息，例如"请求参数没填好"
+     *  - response：抛出异常的类
+     */
+    @GetMapping("/user/{id}")
+    @ApiOperation("根据ID获取用户信息")
+    @ApiImplicitParams({@ApiImplicitParam(name="id",value = "用户编号",required = true,paramType ="path")})
+    @ApiResponses({
+            @ApiResponse(code=408,message = "错误1" ),
+            @ApiResponse(code=400,message = "错误2" ),
+            @ApiResponse(code=404,message = "错误3" )
+    })
+    public User load(@PathVariable("id") Integer id){
+        return new User(id,"jack",32);
     }
 }
